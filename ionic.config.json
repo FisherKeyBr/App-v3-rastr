@@ -1,0 +1,7 @@
+{
+  "name": "app-rastreamento v3",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

@@ -1,0 +1,45 @@
+<!-- -->
+<ion-content padding class="animated fadeIn login auth-page">
+  <div class="login-content">
+
+    <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      <h2 ion-text class="text-primary">
+        <strong>PauliGold Rastreamento</strong>
+      </h2>
+    </div>
+
+    <!-- Login form -->
+    <form class="list-form" [formGroup]="loginForm">
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="conta" item-start class="text-primary"></ion-icon>
+          Conta
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="credential.account" required formControlName="account"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="usuario" item-start class="text-primary"></ion-icon>
+          Usuário
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="credential.user" required formControlName="user"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name="senha" item-start class="text-primary"></ion-icon>
+          Senha
+        </ion-label>
+        <ion-input type="password" [(ngModel)]="credential.password" required formControlName="password"></ion-input>
+      </ion-item>
+    </form>
+    <div>
+      <button ion-button icon-start block color="dark" tappable (click)="login()">
+        <ion-icon name="log-in"></ion-icon>
+        Entrar
+      </button>
+    </div>
+  </div>
+</ion-content>
