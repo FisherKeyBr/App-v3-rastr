@@ -43,7 +43,7 @@ import {VeiculoService} from "../services/veiculo-service";
     }),
     IonicStorageModule.forRoot({
       name: '__db',
-        driverOrder: ['indexeddb', 'sqlite', 'websql']
+        driverOrder: ['indexeddb']
     })
   ],
   bootstrap: [IonicApp],

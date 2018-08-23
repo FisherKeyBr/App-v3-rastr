@@ -5,6 +5,7 @@ import {Credential} from "../../model/credential";
 import {LoginService} from "../../services/login-service";
 import {VeiculosPage} from "../veiculos/veiculos";
 import {AlertService} from "../../services/alert-service";
+import {Storage} from "@ionic/storage";
 
 @Component({
   selector: 'page-login',
@@ -15,8 +16,8 @@ export class LoginPage {
   loginForm: FormGroup;
 
   constructor(public nav: NavController, public menu: MenuController, private formBuilder: FormBuilder,
-              public loginService: LoginService, public alertService: AlertService) {
-
+              public loginService: LoginService, public alertService: AlertService,
+              public storage: Storage) {
     this.menu.swipeEnable(false);
     this.credential = new Credential();
 
@@ -25,14 +26,8 @@ export class LoginPage {
       user: ['', Validators.required],
       password: ['', Validators.required]
     });
-  }
 
-  ionViewWillEnter() {
-    this.loginService.getUsuarioLogado().then(usuario => {
-      if (!!usuario) {
-        this.nav.setRoot(VeiculosPage);
-      }
-    });
+    this.executarChamadasInicial();
   }
 
   // login and go to home page
@@ -52,8 +47,16 @@ export class LoginPage {
     if (!!dados['Error']) {
       this.alertService.showAlert('Os credenciais estão incorreto!', null, 'bottom', 'errorToast');
     } else {
-      this.loginService.storage.set('usuarioLogado', this.credential);
+      this.storage.set('usuarioLogado', this.credential);
       this.nav.setRoot(VeiculosPage);
     }
+  }
+
+  executarChamadasInicial() {
+    this.loginService.getUsuarioLogado().then((token) => {
+      if (!!token) {
+        this.nav.setRoot(VeiculosPage);
+      }
+    });
   }
 }

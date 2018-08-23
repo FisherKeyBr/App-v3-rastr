@@ -8,9 +8,6 @@
       <strong>Meus veículos</strong>
     </ion-title>
     <ion-buttons end>
-      <button ion-button tappable (click)="presentNotifications($event)">
-        <ion-icon name="notifications"></ion-icon>
-      </button>
       <button ion-button tappable (click)="goToAccount()">
         <ion-icon name="cog"></ion-icon>
       </button>
@@ -19,13 +16,43 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="item-divider-md">
-    <button ion-item *ngFor="let veiculo of veiculos">
-      <ion-icon name="car" item-start></ion-icon>
-      {{veiculo.Device}} - {{veiculo.Device_desc}}
-      <div class="item-note" item-end>
-
-      </div>
-    </button>
-  </ion-list>
+  <ion-content>
+    <ion-list *ngFor="let veiculo of conta.DeviceList">
+      <ion-item-divider color="{{getCorAlerta(veiculo.EventData[getIndexUltimoHistorico(veiculo)])}}">
+        <ion-icon name="car" item-start></ion-icon>
+        {{veiculo.Device || '[NÃO INFORMADO]'}} - {{veiculo.Device_desc || '[NÃO INFORMADO]'}}
+        <button icon-only item-end style="background: transparent !important;" tappable>
+          <ion-icon name="search" item-start></ion-icon>
+        </button>
+      </ion-item-divider>
+      <ion-item-sliding>
+        <ion-item tappable>
+          <div class="card card-content-md" style="white-space: normal; padding: 0">
+            <span style="font-weight: bold; font-size: smaller">
+              {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Address}} <br>
+            </span>
+            <span style="font-size: smaller">
+              Última conexão: {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_date}} - {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_time}}
+            </span>
+          </div>
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button color="primary">
+            <ion-icon name="text"></ion-icon>
+            Text
+          </button>
+          <button ion-button color="secondary">
+            <ion-icon name="call"></ion-icon>
+            Call
+          </button>
+        </ion-item-options>
+        <ion-item-options side="right">
+          <button ion-button color="primary">
+            <ion-icon name="mail"></ion-icon>
+            Email
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-content>
 </ion-content>

@@ -3,7 +3,7 @@ export class HistoricoVeiculo{
   Timestamp: number;
   Timestamp_date: string;
   Timestamp_time: string;
-  StatusCode: string;
+  StatusCode: number;
   StatusCode_hex: string;
   StatusCode_desc: string;
   GPSPoint: string;
