@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {LoadingController, NavController} from 'ionic-angular';
 import {LoginService} from "../../services/login-service";
 import {SettingsPage} from "../settings/settings";
 import {LoginPage} from "../login/login";
@@ -23,9 +23,10 @@ export class VeiculosPage {
   constructor(
     public navCtrl: NavController,
     public loginService: LoginService,
-    public veiculoService: VeiculoService
+    public veiculoService: VeiculoService,
+    public loadingCtrl: LoadingController
   ) {
-    this.executarChamadasInicial();
+    this.pesquisarVeiculos();
     this.conta = new Conta();
     this.conta.DeviceList = [];
   }
@@ -54,7 +55,7 @@ export class VeiculosPage {
     }
   }
 
-  getDescricaoAlerta(historico){
+  getDescricaoAlerta(historico) {
     if (!historico) {
       return '';
     }
@@ -78,23 +79,26 @@ export class VeiculosPage {
   }
 
   atualizarVeiculos(refresher) {
-    console.log('Begin async operation', refresher);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      refresher.complete();
-    }, 2000);
+    this.pesquisarVeiculos();
+    refresher.complete();
   }
 
-  executarChamadasInicial() {
+  pesquisarVeiculos() {
     this.loginService.getUsuarioLogado().then((token) => {
       if (!token) {
         this.navCtrl.setRoot(LoginPage);
         return;
       }
 
+      let loading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: 'Por favor aguarde...'
+      });
+
+      loading.present();
       this.veiculoService.getContaComVeiculos('all', token).subscribe(conta => {
         this.conta = <Conta>conta
+        loading.dismiss();
       });
     });
   }
