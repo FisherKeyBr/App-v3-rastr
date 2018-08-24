@@ -6,6 +6,7 @@ import {LoginPage} from "../login/login";
 import {VeiculoService} from "../../services/veiculo-service";
 import {HistoricoVeiculo} from "../../model/historico-veiculo";
 import {Veiculo} from "../../model/veiculo";
+import {AlertaVeiculoEnum} from "../../enums/alerta-veiculo";
 
 @Component({
   selector: 'page-veiculos',
@@ -13,11 +14,6 @@ import {Veiculo} from "../../model/veiculo";
 })
 export class VeiculosPage {
   veiculos: any;
-
-  ALERTA_BATERIA: number = 64784;
-  ALERTA_VELOCIDADE: number = 61722;
-  ALERTA_PANICO: number = 63553;
-  ALERTA_EM_MOVIMENTO: number = 61714;
 
   constructor(
     public navCtrl: NavController,
@@ -39,13 +35,13 @@ export class VeiculosPage {
     }
 
     switch (historico.StatusCode) {
-      case this.ALERTA_BATERIA:
+      case AlertaVeiculoEnum.BATERIA_BAIXA:
         return 'yellow';
-      case this.ALERTA_VELOCIDADE:
+      case AlertaVeiculoEnum.VELOCIDADE_ULTRAPASSADA:
         return 'orange';
-      case this.ALERTA_PANICO:
+      case AlertaVeiculoEnum.PANICO:
         return 'danger';
-      case this.ALERTA_EM_MOVIMENTO:
+      case AlertaVeiculoEnum.EM_MOVIMENTO:
         return 'green';
       default:
         return 'light';
@@ -58,13 +54,13 @@ export class VeiculosPage {
     }
 
     switch (historico.StatusCode) {
-      case this.ALERTA_BATERIA:
+      case AlertaVeiculoEnum.BATERIA_BAIXA:
         return 'Status: Bateria baixa';
-      case this.ALERTA_VELOCIDADE:
+      case AlertaVeiculoEnum.VELOCIDADE_ULTRAPASSADA:
         return 'Status: Velocidade ultrapassada';
-      case this.ALERTA_PANICO:
+      case AlertaVeiculoEnum.PANICO:
         return 'Status: Panico';
-      case this.ALERTA_EM_MOVIMENTO:
+      case AlertaVeiculoEnum.EM_MOVIMENTO:
         return 'Status: Em movimento';
       default:
         return '';

@@ -1,0 +1,6 @@
+export enum AlertaVeiculoEnum {
+  BATERIA_BAIXA = 64784,
+  VELOCIDADE_ULTRAPASSADA = 61722,
+  PANICO = 63553,
+  EM_MOVIMENTO = 61714
+}
