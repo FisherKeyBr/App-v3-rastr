@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
-import {NavController, MenuController} from "ionic-angular";
+import {NavController, MenuController, LoadingController} from "ionic-angular";
 import {Credential} from "../../model/credential";
 import {LoginService} from "../../services/login-service";
 import {VeiculosPage} from "../veiculos/veiculos";
@@ -17,7 +17,7 @@ export class LoginPage {
 
   constructor(public nav: NavController, public menu: MenuController, private formBuilder: FormBuilder,
               public loginService: LoginService, public alertService: AlertService,
-              public storage: Storage) {
+              public storage: Storage, public loadingCtrl: LoadingController) {
     this.menu.swipeEnable(false);
     this.credential = new Credential();
 
@@ -38,7 +38,15 @@ export class LoginPage {
       return;
     }
 
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Verificando credenciais...'
+    });
+
+    loading.present();
+
     this.loginService.login(this.credential).subscribe((dados) => {
+      loading.dismiss();
       this.onLoginResult(dados);
     });
   }

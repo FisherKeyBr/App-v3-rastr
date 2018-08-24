@@ -16,6 +16,7 @@ import {AlertService} from "../services/alert-service";
 import {NotificationsPage} from "../pages/notifications/notifications";
 import {SettingsPage} from "../pages/settings/settings";
 import {VeiculoService} from "../services/veiculo-service";
+import {MapaPage} from "../pages/mapa/mapa";
 
 // import services
 // end import services
@@ -31,7 +32,8 @@ import {VeiculoService} from "../services/veiculo-service";
     VeiculosPage,
     HistoricoPage,
     NotificationsPage,
-    SettingsPage
+    SettingsPage,
+    MapaPage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import {VeiculoService} from "../services/veiculo-service";
     VeiculosPage,
     HistoricoPage,
     NotificationsPage,
-    SettingsPage
+    SettingsPage,
+    MapaPage
   ],
   providers: [
     LoginService,
