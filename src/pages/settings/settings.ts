@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {NavController} from "ionic-angular";
 import {LoginPage} from "../login/login";
 import {LoginService} from "../../services/login-service";
-import {Storage} from "@ionic/storage";
 
 @Component({
   selector: 'page-settings',
