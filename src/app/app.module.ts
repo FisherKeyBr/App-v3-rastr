@@ -2,7 +2,6 @@ import {NgModule} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {IonicStorageModule} from '@ionic/storage';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Keyboard} from '@ionic-native/keyboard';
@@ -42,10 +41,6 @@ import {MapaPage} from "../pages/mapa/mapa";
       scrollPadding: false,
       scrollAssist: true,
       autoFocusAssist: false
-    }),
-    IonicStorageModule.forRoot({
-      name: '__db',
-        driverOrder: ['indexeddb']
     })
   ],
   bootstrap: [IonicApp],

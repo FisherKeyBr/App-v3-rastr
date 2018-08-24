@@ -20,7 +20,7 @@
   <ion-refresher (ionRefresh)="atualizarVeiculos($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngFor="let veiculo of conta.DeviceList">
+  <ion-list *ngFor="let veiculo of veiculos">
     <ion-item-divider color="{{getCorAlerta(veiculo.EventData[getIndexUltimoHistorico(veiculo)])}}">
       <ion-icon name="car" item-start></ion-icon>
       <span style="white-space: normal; font-weight: bold">

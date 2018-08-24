@@ -4,7 +4,6 @@ import {LoginService} from "../../services/login-service";
 import {SettingsPage} from "../settings/settings";
 import {LoginPage} from "../login/login";
 import {VeiculoService} from "../../services/veiculo-service";
-import {Conta} from "../../model/conta";
 import {HistoricoVeiculo} from "../../model/historico-veiculo";
 import {Veiculo} from "../../model/veiculo";
 
@@ -13,7 +12,7 @@ import {Veiculo} from "../../model/veiculo";
   templateUrl: 'veiculos.html'
 })
 export class VeiculosPage {
-  conta: any;
+  veiculos: any;
 
   ALERTA_BATERIA: number = 64784;
   ALERTA_VELOCIDADE: number = 61722;
@@ -26,9 +25,7 @@ export class VeiculosPage {
     public veiculoService: VeiculoService,
     public loadingCtrl: LoadingController
   ) {
-    this.pesquisarVeiculos();
-    this.conta = new Conta();
-    this.conta.DeviceList = [];
+    this.veiculos = [];
   }
 
   // to go account page
@@ -84,22 +81,25 @@ export class VeiculosPage {
   }
 
   pesquisarVeiculos() {
-    this.loginService.getUsuarioLogado().then((token) => {
-      if (!token) {
-        this.navCtrl.setRoot(LoginPage);
-        return;
-      }
-
-      let loading = this.loadingCtrl.create({
-        spinner: 'bubbles',
-        content: 'Por favor aguarde...'
-      });
-
-      loading.present();
-      this.veiculoService.getContaComVeiculos('all', token).subscribe(conta => {
-        this.conta = <Conta>conta
-        loading.dismiss();
-      });
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Por favor aguarde...'
     });
+
+    loading.present();
+    this.veiculoService.getVeiculos('0153').subscribe(retorno => {
+      this.veiculos = retorno;
+      loading.dismiss();
+    }, loading.dismiss);
+  }
+
+  ionViewWillEnter() {
+    if (!this.loginService.getUsuarioLogado()) {
+      this.navCtrl.setRoot(LoginPage);
+    }
+  }
+
+  ionViewDidEnter() {
+    this.pesquisarVeiculos();
   }
 }
