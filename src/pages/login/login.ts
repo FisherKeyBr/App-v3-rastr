@@ -53,7 +53,10 @@ export class LoginPage {
     this.loginService.login(this.credential, this.servidor).subscribe((dados) => {
       loading.dismiss();
       this.onLoginResult(dados);
-    }, loading.dismiss);
+    }, () => {
+      this.alertService.showAlert('Houve um erro ao logar no servidor.', null, 'top', 'errorToast');
+      loading.dismiss();
+    });
   }
 
   onLoginResult(isAutenticado) {
