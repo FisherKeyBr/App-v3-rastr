@@ -14,7 +14,7 @@
     <form class="list-form" [formGroup]="loginForm">
       <ion-item>
         <ion-label floating>
-          <ion-icon name="conta" item-start class="text-primary"></ion-icon>
+          <ion-icon name="key" item-start class="text-primary"></ion-icon>
           Conta
         </ion-label>
         <ion-input type="text" [(ngModel)]="credential.account" required formControlName="account"></ion-input>
@@ -22,17 +22,26 @@
 
       <ion-item>
         <ion-label floating>
-          <ion-icon name="usuario" item-start class="text-primary"></ion-icon>
+          <ion-icon name="contact" item-start class="text-primary"></ion-icon>
           Usuário
         </ion-label>
         <ion-input type="text" [(ngModel)]="credential.user" required formControlName="user"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          <ion-icon name="senha" item-start class="text-primary"></ion-icon>
+          <ion-icon name="eye" item-start class="text-primary"></ion-icon>
           Senha
         </ion-label>
         <ion-input type="password" [(ngModel)]="credential.password" required formControlName="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Outro servidor?</ion-label>
+        <ion-checkbox [(ngModel)]="servidor.isLogarOutroServidor" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+      </ion-item>
+      <ion-item *ngIf="!!servidor.isLogarOutroServidor">
+        <ion-label>IP</ion-label>
+        <ion-input type="text" [(ngModel)]="servidor.ipServidor" [ngModelOptions]="{standalone: true}" [required]="!!servidor.isLogarOutroServidor"
+                   placeholder="Ex: 11.11.11.111:8080"></ion-input>
       </ion-item>
     </form>
     <div>

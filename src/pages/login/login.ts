@@ -13,12 +13,15 @@ import {AlertService} from "../../services/alert-service";
 export class LoginPage {
   credential: Credential;
   loginForm: FormGroup;
+  servidor: any;
 
   constructor(public nav: NavController, public menu: MenuController, private formBuilder: FormBuilder,
               public loginService: LoginService, public alertService: AlertService,
               public loadingCtrl: LoadingController) {
     this.menu.swipeEnable(false);
     this.credential = new Credential();
+
+    this.servidor = {};
 
     this.loginForm = this.formBuilder.group({
       account: ['', Validators.required],
@@ -35,6 +38,11 @@ export class LoginPage {
       return;
     }
 
+    if (!!this.servidor.isLogarOutroServidor && !this.servidor.ipServidor) {
+      this.alertService.showAlert('É necessário informar o IP do servidor para logar.', null, 'top', 'errorToast');
+      return;
+    }
+
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Verificando credenciais...'
@@ -42,7 +50,7 @@ export class LoginPage {
 
     loading.present();
 
-    this.loginService.login(this.credential).subscribe((dados) => {
+    this.loginService.login(this.credential, this.servidor).subscribe((dados) => {
       loading.dismiss();
       this.onLoginResult(dados);
     }, loading.dismiss);

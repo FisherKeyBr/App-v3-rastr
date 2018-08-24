@@ -9,7 +9,11 @@ export class LoginService {
 
   }
 
-  login(credential) {
+  login(credential, servidor) {
+    if (!!servidor.isLogarOutroServidor) {
+      return this.http.post('http://' + servidor.ipServidor + '/getVeiculos', credential).map(dados => !dados.hasOwnProperty('Error'));
+    }
+
     return this.http.post('http://95.85.11.175:8063/getVeiculos', credential).map(dados => !dados.hasOwnProperty('Error'));
   }
 
