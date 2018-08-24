@@ -32,7 +32,7 @@
       </button>
     </ion-item-divider>
     <ion-item-sliding>
-      <ion-item tappable>
+      <button ion-item tappable (click)="goMapa(veiculo.EventData)">
         <div class="card card-content-md" style="white-space: normal; padding: 0">
             <span style="font-weight: bold; font-size: smaller">
               {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Address}} <br>
@@ -41,7 +41,7 @@
               Última conexão: {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_date}} - {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_time}}
             </span>
         </div>
-      </ion-item>
+      </button>
       <ion-item-options side="left">
         <button ion-button color="primary">
           <ion-icon name="text"></ion-icon>

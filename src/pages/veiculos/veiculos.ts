@@ -7,6 +7,7 @@ import {VeiculoService} from "../../services/veiculo-service";
 import {HistoricoVeiculo} from "../../model/historico-veiculo";
 import {Veiculo} from "../../model/veiculo";
 import {AlertaVeiculoEnum} from "../../enums/alerta-veiculo";
+import {MapaPage} from "../mapa/mapa";
 
 @Component({
   selector: 'page-veiculos',
@@ -93,6 +94,10 @@ export class VeiculosPage {
     if (!this.loginService.getUsuarioLogado()) {
       this.navCtrl.setRoot(LoginPage);
     }
+  }
+
+  goMapa(historicos: Array<HistoricoVeiculo>) {
+    this.navCtrl.push(MapaPage, {historicos: historicos});
   }
 
   ionViewDidEnter() {
