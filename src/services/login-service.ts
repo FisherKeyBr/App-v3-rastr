@@ -5,8 +5,18 @@ import {Credential} from "../model/credential";
 
 @Injectable()
 export class LoginService {
+  private _isLoggedIn: boolean = false;
+
   constructor(private http: HttpClient) {
 
+  }
+
+  set isLoggedIn(isLogeedIn){
+      this._isLoggedIn = isLogeedIn;
+  }
+
+  get isLoggedIn(){
+    return this._isLoggedIn;
   }
 
   login(credential, servidor) {
