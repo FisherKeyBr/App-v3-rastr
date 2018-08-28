@@ -55,6 +55,8 @@ export class MyApp {
 
       //*** Control Keyboard
       this.keyboard.disableScroll(true);
+
+      //TODO: pegar token logado se existir.
     });
   }
 
