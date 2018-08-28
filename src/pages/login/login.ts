@@ -63,6 +63,7 @@ export class LoginPage {
     if (!isAutenticado) {
       this.alertService.showAlert('Os credenciais estão incorreto!', null, 'bottom', 'errorToast');
     } else {
+      this.loginService.isLoggedIn = true;
       localStorage.setItem('usuarioLogado', JSON.stringify(this.credential));
       this.nav.setRoot(VeiculosPage);
     }

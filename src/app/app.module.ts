@@ -16,6 +16,7 @@ import {NotificationsPage} from "../pages/notifications/notifications";
 import {SettingsPage} from "../pages/settings/settings";
 import {VeiculoService} from "../services/veiculo-service";
 import {MapaPage} from "../pages/mapa/mapa";
+import {IonicStorageModule} from "@ionic/storage";
 
 // import services
 // end import services
@@ -41,6 +42,10 @@ import {MapaPage} from "../pages/mapa/mapa";
       scrollPadding: false,
       scrollAssist: true,
       autoFocusAssist: false
+    }),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+         driverOrder: ['indexeddb', 'sqlite', 'websql']
     })
   ],
   bootstrap: [IonicApp],
