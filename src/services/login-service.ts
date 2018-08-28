@@ -1,22 +1,23 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import {Storage} from "@ionic/storage";
 import {Credential} from "../model/credential";
 
 @Injectable()
 export class LoginService {
-  private _isLoggedIn: boolean = false;
+  private _usuarioLogado: Credential;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private storage: Storage) {
 
   }
 
-  set isLoggedIn(isLogeedIn){
-      this._isLoggedIn = isLogeedIn;
+  set usuarioLogado(usuario) {
+    this._usuarioLogado = usuario;
   }
 
-  get isLoggedIn(){
-    return this._isLoggedIn;
+  get usuarioLogado():Credential {
+    return this._usuarioLogado;
   }
 
   login(credential, servidor) {
@@ -28,10 +29,6 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.removeItem('usuarioLogado');
-  }
-
-  getUsuarioLogado(): Credential {
-    return JSON.parse(localStorage.getItem('usuarioLogado'));
+    return this.storage.remove('usuarioLogado');
   }
 }

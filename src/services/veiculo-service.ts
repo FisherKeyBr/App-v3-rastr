@@ -11,7 +11,7 @@ export class VeiculoService {
   }
 
   getVeiculos(id) {
-    let token: Credential = this.loginService.getUsuarioLogado();
+    let token: Credential = this.loginService.usuarioLogado;
 
     let params = {
       account: token.account,

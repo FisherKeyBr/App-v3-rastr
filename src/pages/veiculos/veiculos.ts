@@ -91,7 +91,7 @@ export class VeiculosPage {
   }
 
   ionViewWillEnter() {
-    if (!this.loginService.getUsuarioLogado()) {
+    if (!this.loginService.usuarioLogado) {
       this.navCtrl.setRoot(LoginPage);
     }
   }

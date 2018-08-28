@@ -1,18 +1,18 @@
-import { Component, ViewChild } from "@angular/core";
-import { Platform, Nav } from "ionic-angular";
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Keyboard } from '@ionic-native/keyboard';
-import { LoginPage } from "../pages/login/login";
-import { VeiculosPage } from "../pages/veiculos/veiculos";
-import { HistoricoPage } from "../pages/historico/historico";
+import {Component, ViewChild} from "@angular/core";
+import {Platform, Nav} from "ionic-angular";
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {Keyboard} from '@ionic-native/keyboard';
+import {LoginPage} from "../pages/login/login";
+import {VeiculosPage} from "../pages/veiculos/veiculos";
+import {HistoricoPage} from "../pages/historico/historico";
 import {LoginService} from "../services/login-service";
+import {Storage} from "@ionic/storage";
 
 export interface MenuItem {
-    title: string;
-    component: any;
-    icon: string;
+  title: string;
+  component: any;
+  icon: string;
 }
 
 @Component({
@@ -31,7 +31,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public keyboard: Keyboard,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public storage: Storage
   ) {
     this.initializeApp();
 
@@ -56,7 +57,10 @@ export class MyApp {
       //*** Control Keyboard
       this.keyboard.disableScroll(true);
 
-      //TODO: pegar token logado se existir.
+      //verificar e pegar o token do usuário logado
+      this.storage.get('usuarioLogado').then((token) => {
+        this.loginService.usuarioLogado = token;
+      });
     });
   }
 
@@ -67,8 +71,9 @@ export class MyApp {
   }
 
   logout() {
-    this.loginService.logout();
-    this.nav.setRoot(LoginPage);
+    this.loginService.logout().then(() => {
+      this.nav.setRoot(LoginPage);
+    });
   }
 
 }
