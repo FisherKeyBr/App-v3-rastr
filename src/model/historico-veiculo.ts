@@ -7,8 +7,8 @@ export class HistoricoVeiculo{
   StatusCode_hex: string;
   StatusCode_desc: string;
   GPSPoint: string;
-  GPSPoint_lat: string;
-  GPSPoint_lon: string;
+  GPSPoint_lat: number;
+  GPSPoint_lon: number;
   Speed: number;
   Speed_units: string;
   Heading: number;
