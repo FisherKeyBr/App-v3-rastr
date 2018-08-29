@@ -6,7 +6,7 @@ import {Credential} from "../model/credential";
 @Injectable()
 export class LoginService {
   private _isLoggedIn: boolean = false;
-  private const INVALID_AUTHORIZATION: string = 'Invalid authorization';
+  private INVALID_AUTHORIZATION: string = 'Invalid authorization';
 
   constructor(private http: HttpClient) {
 
@@ -23,10 +23,10 @@ export class LoginService {
   login(credential, servidor) {
     credential.id = 'VALIDAR_LOGIN_APP';
     if (!!servidor.isLogarOutroServidor) {
-      return this.http.post('http://' + servidor.ipServidor + '/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== INVALID_AUTHORIZATION);
+      return this.http.post('http://' + servidor.ipServidor + '/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== this.INVALID_AUTHORIZATION);
     }
 
-    return this.http.post('http://95.85.11.175:8063/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== INVALID_AUTHORIZATION);
+    return this.http.post('http://95.85.11.175:8063/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== this.INVALID_AUTHORIZATION);
   }
 
   logout() {
