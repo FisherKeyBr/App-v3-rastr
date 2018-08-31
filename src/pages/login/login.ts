@@ -5,6 +5,7 @@ import {Credential} from "../../model/credential";
 import {LoginService} from "../../services/login-service";
 import {VeiculosPage} from "../veiculos/veiculos";
 import {AlertService} from "../../services/alert-service";
+import {Storage} from "@ionic/storage";
 
 @Component({
   selector: 'page-login',
@@ -17,7 +18,7 @@ export class LoginPage {
 
   constructor(public nav: NavController, public menu: MenuController, private formBuilder: FormBuilder,
               public loginService: LoginService, public alertService: AlertService,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController, public storage: Storage) {
     this.menu.swipeEnable(false);
     this.credential = new Credential();
 
@@ -33,13 +34,12 @@ export class LoginPage {
   // login and go to home page
   login() {
     if (!this.loginForm.valid) {
-      this.alertService.showAlert('É necessário preencher todos os campos obrigatórios!',
-        null, 'bottom', 'errorToast');
+      this.alertService.showAlert('É necessário preencher todos os campos obrigatórios!');
       return;
     }
 
     if (!!this.servidor.isLogarOutroServidor && !this.servidor.ipServidor) {
-      this.alertService.showAlert('É necessário informar o IP do servidor para logar.', null, 'top', 'errorToast');
+      this.alertService.showAlert('É necessário informar o IP do servidor para logar.');
       return;
     }
 
@@ -54,24 +54,34 @@ export class LoginPage {
       loading.dismiss();
       this.onLoginResult(dados);
     }, () => {
-      this.alertService.showAlert('Houve um erro ao logar no servidor.', null, 'top', 'errorToast');
+      this.alertService.showError('Houve um erro ao logar no servidor.');
       loading.dismiss();
     });
   }
 
   onLoginResult(isAutenticado) {
     if (!isAutenticado) {
-      this.alertService.showAlert('Os credenciais estão incorreto!', null, 'bottom', 'errorToast');
+      this.alertService.showError('Os credenciais estão incorreto!');
     } else {
-      this.loginService.isLoggedIn = true;
-      localStorage.setItem('usuarioLogado', JSON.stringify(this.credential));
-      this.nav.setRoot(VeiculosPage);
+      this.storage.set('usuarioLogado', this.credential).then(() => {
+        this.loginService.usuarioLogado = Object.assign(new Credential(), this.credential);
+        this.nav.setRoot(VeiculosPage);
+      });
     }
   }
 
   ionViewWillEnter() {
-    if (!!this.loginService.getUsuarioLogado()) {
-      this.nav.setRoot(VeiculosPage);
-    }
+    //verificar e pegar o token do usuário logado
+    this.storage.ready().then(() => {
+      this.storage.get('usuarioLogado').then((token) => {
+        this.loginService.usuarioLogado = Object.assign(new Credential(), token);
+
+        if (!!this.loginService.usuarioLogado.account &&
+          !!this.loginService.usuarioLogado.user &&
+          !!this.loginService.usuarioLogado.password) {
+          this.nav.setRoot(VeiculosPage);
+        }
+      });
+    });
   }
 }

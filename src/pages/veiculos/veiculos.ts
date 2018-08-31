@@ -4,8 +4,6 @@ import {LoginService} from "../../services/login-service";
 import {SettingsPage} from "../settings/settings";
 import {LoginPage} from "../login/login";
 import {VeiculoService} from "../../services/veiculo-service";
-import {HistoricoVeiculo} from "../../model/historico-veiculo";
-import {Veiculo} from "../../model/veiculo";
 import {AlertaVeiculoEnum} from "../../enums/alerta-veiculo";
 import {MapaPage} from "../mapa/mapa";
 
@@ -30,12 +28,12 @@ export class VeiculosPage {
     this.navCtrl.push(SettingsPage);
   }
 
-  getCorAlerta(historico: HistoricoVeiculo) {
+  getCorAlerta(historico: any) {
     if (!historico) {
       return 'light';
     }
 
-    switch (historico.StatusCode) {
+    switch (historico.statusCode) {
       case AlertaVeiculoEnum.BATERIA_BAIXA:
         return 'yellow';
       case AlertaVeiculoEnum.VELOCIDADE_ULTRAPASSADA:
@@ -54,7 +52,7 @@ export class VeiculosPage {
       return '';
     }
 
-    switch (historico.StatusCode) {
+    switch (historico.statusCode) {
       case AlertaVeiculoEnum.BATERIA_BAIXA:
         return 'Status: Bateria baixa';
       case AlertaVeiculoEnum.VELOCIDADE_ULTRAPASSADA:
@@ -66,10 +64,6 @@ export class VeiculosPage {
       default:
         return '';
     }
-  }
-
-  getIndexUltimoHistorico(veiculo: Veiculo) {
-    return veiculo.EventData && veiculo.EventData.length > 0 ? veiculo.EventData.length - 1 : 0;
   }
 
   atualizarVeiculos(refresher) {
@@ -84,20 +78,22 @@ export class VeiculosPage {
     });
 
     loading.present();
-    this.veiculoService.getVeiculos('0153').subscribe(retorno => {
+    this.veiculoService.getVeiculos().subscribe(retorno => {
       this.veiculos = retorno;
       loading.dismiss();
-    }, loading.dismiss);
+    }, () => {
+      loading.dismiss()
+    });
   }
 
   ionViewWillEnter() {
-    if (!this.loginService.getUsuarioLogado()) {
+    if (!this.loginService.usuarioLogado) {
       this.navCtrl.setRoot(LoginPage);
     }
   }
 
-  goMapa(historicos: Array<HistoricoVeiculo>) {
-    this.navCtrl.push(MapaPage, {historicos: historicos});
+  goMapa(deviceId) {
+    this.navCtrl.push(MapaPage, {deviceId: deviceId});
   }
 
   ionViewDidEnter() {

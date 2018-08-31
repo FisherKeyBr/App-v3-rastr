@@ -60,4 +60,11 @@ $ionicons-font-path: "../assets/fonts";
   }
 }
 
+.alertToast{
+  .toast-message {
+    border-radius: 0.65rem !important;
+    background: color($colors, orange);
+  }
+}
+
 

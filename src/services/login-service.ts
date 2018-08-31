@@ -1,39 +1,33 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import {Storage} from "@ionic/storage";
 import {Credential} from "../model/credential";
 
 @Injectable()
 export class LoginService {
-  private _isLoggedIn: boolean = false;
-  private INVALID_AUTHORIZATION: string = 'Invalid authorization';
+  private _usuarioLogado: Credential;
 
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient, private storage: Storage) {
   }
 
-  set isLoggedIn(isLogeedIn){
-      this._isLoggedIn = isLogeedIn;
+  set usuarioLogado(usuario) {
+    this._usuarioLogado = usuario;
   }
 
-  get isLoggedIn(){
-    return this._isLoggedIn;
+  get usuarioLogado(): Credential {
+    return this._usuarioLogado;
   }
 
   login(credential, servidor) {
-    credential.id = 'VALIDAR_LOGIN_APP';
     if (!!servidor.isLogarOutroServidor) {
-      return this.http.post('http://' + servidor.ipServidor + '/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== this.INVALID_AUTHORIZATION);
+      return this.http.post('http://' + servidor.ipServidor + '/getUsuario', credential).map(dados => dados[0]);
     }
 
-    return this.http.post('http://95.85.11.175:8063/getVeiculos', credential).map(dados => dados.hasOwnProperty('Error') && dados['Error'] !== this.INVALID_AUTHORIZATION);
+    return this.http.post('http://localhost:8063/getUsuario', credential).map(dados => dados[0]);
   }
 
   logout() {
-    localStorage.removeItem('usuarioLogado');
-  }
-
-  getUsuarioLogado(): Credential {
-    return JSON.parse(localStorage.getItem('usuarioLogado'));
+    return this.storage.remove('usuarioLogado');
   }
 }

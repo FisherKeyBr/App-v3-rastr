@@ -7,12 +7,34 @@ export class AlertService {
 
   }
 
-  showAlert(message, duration, position, cssClass){
+  showAlert(message) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: duration || 3000,
-      position: position || 'top',
-      cssClass: cssClass || 'normalToast'
+      duration: 3000,
+      position: 'top',
+      cssClass: 'alertToast'
+    });
+
+    toast.present();
+  }
+
+  showInfo(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top',
+      cssClass: 'normalToast'
+    });
+
+    toast.present();
+  }
+
+  showError(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top',
+      cssClass: 'errorToast'
     });
 
     toast.present();
