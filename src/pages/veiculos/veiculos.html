@@ -21,24 +21,24 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list *ngFor="let veiculo of veiculos">
-    <ion-item-divider color="{{getCorAlerta(veiculo.EventData[getIndexUltimoHistorico(veiculo)])}}">
+    <ion-item-divider color="{{getCorAlerta(veiculo)}}">
       <ion-icon name="car" item-start></ion-icon>
       <span style="white-space: normal; font-weight: bold">
-        {{veiculo.Device || '[NÃO INFORMADO]'}} - {{veiculo.Device_desc || '[NÃO INFORMADO]'}}
-      {{getDescricaoAlerta(veiculo.EventData[getIndexUltimoHistorico(veiculo)])}}
+        {{veiculo.deviceID || '[NÃO INFORMADO]'}} - {{veiculo.description || '[NÃO INFORMADO]'}}
+      {{getDescricaoAlerta(veiculo)}}
       </span>
       <button icon-only item-end style="background: transparent !important;" tappable>
         <ion-icon name="search" item-start></ion-icon>
       </button>
     </ion-item-divider>
     <ion-item-sliding>
-      <button ion-item tappable (click)="goMapa(veiculo.EventData)">
+      <button ion-item tappable (click)="goMapa(veiculo.deviceID)">
         <div class="card card-content-md" style="white-space: normal; padding: 0">
             <span style="font-weight: bold; font-size: smaller">
-              {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Address}} <br>
+              {{veiculo.address || '[NÃO INFORMADO]'}} <br>
             </span>
           <span style="font-size: smaller">
-              Última conexão: {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_date}} - {{(veiculo.EventData[getIndexUltimoHistorico(veiculo)] || {}).Timestamp_time}}
+              Última conexão: {{veiculo.ultima_conexao || '[NÃO INFORMADO]'}}
             </span>
         </div>
       </button>

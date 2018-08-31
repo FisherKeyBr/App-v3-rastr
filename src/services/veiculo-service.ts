@@ -10,16 +10,14 @@ export class VeiculoService {
 
   }
 
-  getVeiculos(id) {
+  getVeiculos() {
     let token: Credential = this.loginService.usuarioLogado;
 
     let params = {
       account: token.account,
-      password: token.password,
-      user: token.user,
-      id: id || 'all'
+      user: token.user
     };
 
-    return this.http.post('http://95.85.11.175:8063/getVeiculos', params).map((dados) => dados['DeviceList']);
+    return this.http.post('http://localhost:8063/getVeiculos', params);
   }
 }

@@ -64,14 +64,24 @@ export class LoginPage {
       this.alertService.showError('Os credenciais estão incorreto!');
     } else {
       this.storage.set('usuarioLogado', this.credential).then(() => {
+        this.loginService.usuarioLogado = Object.assign(new Credential(), this.credential);
         this.nav.setRoot(VeiculosPage);
       });
     }
   }
 
   ionViewWillEnter() {
-    if (!!this.loginService.usuarioLogado) {
-      this.nav.setRoot(VeiculosPage);
-    }
+    //verificar e pegar o token do usuário logado
+    this.storage.ready().then(() => {
+      this.storage.get('usuarioLogado').then((token) => {
+        this.loginService.usuarioLogado = Object.assign(new Credential(), token);
+
+        if (!!this.loginService.usuarioLogado.account &&
+          !!this.loginService.usuarioLogado.user &&
+          !!this.loginService.usuarioLogado.password) {
+          this.nav.setRoot(VeiculosPage);
+        }
+      });
+    });
   }
 }

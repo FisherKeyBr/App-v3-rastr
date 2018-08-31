@@ -7,7 +7,7 @@ export class AlertService {
 
   }
 
-  showAlert(message){
+  showAlert(message) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -18,7 +18,7 @@ export class AlertService {
     toast.present();
   }
 
-  showInfo(message){
+  showInfo(message) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -29,7 +29,7 @@ export class AlertService {
     toast.present();
   }
 
-  showError(message){
+  showError(message) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,

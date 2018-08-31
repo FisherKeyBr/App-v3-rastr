@@ -8,6 +8,7 @@ import {VeiculosPage} from "../pages/veiculos/veiculos";
 import {HistoricoPage} from "../pages/historico/historico";
 import {LoginService} from "../services/login-service";
 import {Storage} from "@ionic/storage";
+import {Credential} from "../model/credential";
 
 export interface MenuItem {
   title: string;
@@ -56,11 +57,6 @@ export class MyApp {
 
       //*** Control Keyboard
       this.keyboard.disableScroll(true);
-
-      //verificar e pegar o token do usuário logado
-      this.storage.get('usuarioLogado').then((token) => {
-        this.loginService.usuarioLogado = token;
-      });
     });
   }
 
@@ -72,6 +68,7 @@ export class MyApp {
 
   logout() {
     this.loginService.logout().then(() => {
+      this.loginService.usuarioLogado = new Credential();
       this.nav.setRoot(LoginPage);
     });
   }
