@@ -53,8 +53,8 @@ export class LoginPage {
     this.loginService.login(this.credential, this.servidor).subscribe((dados) => {
       loading.dismiss();
       this.onLoginResult(dados);
-    }, () => {
-      this.alertService.showError('Houve um erro ao logar no servidor.');
+    }, (error) => {
+      this.alertService.showError('Houve um erro ao logar no servidor - ' + (error.message || '[CONEXÃO BANCO]'));
       loading.dismiss();
     });
   }

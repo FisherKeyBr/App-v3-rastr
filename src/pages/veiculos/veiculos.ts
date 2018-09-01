@@ -6,6 +6,7 @@ import {LoginPage} from "../login/login";
 import {VeiculoService} from "../../services/veiculo-service";
 import {AlertaVeiculoEnum} from "../../enums/alerta-veiculo";
 import {MapaPage} from "../mapa/mapa";
+import {AlertService} from "../../services/alert-service";
 
 @Component({
   selector: 'page-veiculos',
@@ -18,7 +19,8 @@ export class VeiculosPage {
     public navCtrl: NavController,
     public loginService: LoginService,
     public veiculoService: VeiculoService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public alertService: AlertService
   ) {
     this.veiculos = [];
   }
@@ -81,8 +83,9 @@ export class VeiculosPage {
     this.veiculoService.getVeiculos().subscribe(retorno => {
       this.veiculos = retorno;
       loading.dismiss();
-    }, () => {
-      loading.dismiss()
+    }, (error) => {
+      this.alertService.showError(error.message);
+      loading.dismiss();
     });
   }
 
