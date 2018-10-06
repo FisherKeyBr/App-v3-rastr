@@ -1,7 +1,18 @@
 <ion-content>
-  <div #map id="map"></div>
+  <div #map class="map-container" id="map" *ngIf="tipoMapa === 'google'"></div>
+  <div class="map-container" id="osmap" *ngIf="tipoMapa !== 'google'"></div>
 </ion-content>
 <ion-footer>
   <ion-navbar>
+    <ion-list radio-group [(ngModel)]="tipoMapa">
+      <ion-item>
+        <ion-label>Google?</ion-label>
+        <ion-radio value="google" (ionSelect)="loadMap()"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Openstreet?</ion-label>
+        <ion-radio value="os" (ionSelect)="loadMap()"></ion-radio>
+      </ion-item>
+    </ion-list>
   </ion-navbar>
 </ion-footer>
