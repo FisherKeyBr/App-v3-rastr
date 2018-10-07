@@ -7,6 +7,7 @@ import {VeiculoService} from "../../services/veiculo-service";
 import {AlertaVeiculoEnum} from "../../enums/alerta-veiculo";
 import {MapaPage} from "../mapa/mapa";
 import {AlertService} from "../../services/alert-service";
+import {HistoricoPage} from "../historico/historico";
 
 @Component({
   selector: 'page-veiculos',
@@ -14,6 +15,8 @@ import {AlertService} from "../../services/alert-service";
 })
 export class VeiculosPage {
   veiculos: any;
+  veiculosClone: any;
+  filter: any;
 
   constructor(
     public navCtrl: NavController,
@@ -23,6 +26,7 @@ export class VeiculosPage {
     public alertService: AlertService
   ) {
     this.veiculos = [];
+    this.filter = {};
   }
 
   // to go account page
@@ -47,6 +51,27 @@ export class VeiculosPage {
       default:
         return 'light';
     }
+  }
+
+  filterVeiculos(searchbar){
+    this.veiculos = this.veiculosClone;
+
+    // set q to the value of the searchbar
+    var q = searchbar.srcElement.value;
+
+    // if the value is an empty string don't filter the items
+    if (!q) {
+      return;
+    }
+
+    this.veiculos = this.veiculos.filter((v) => {
+      if(v.description && q) {
+        if (v.description.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+          return true;
+        }
+        return false;
+      }
+    });
   }
 
   getDescricaoAlerta(historico) {
@@ -82,6 +107,8 @@ export class VeiculosPage {
     loading.present();
     this.veiculoService.getVeiculos().subscribe(retorno => {
       this.veiculos = retorno;
+
+      this.veiculosClone = Object.assign([], this.veiculos);
       loading.dismiss();
     }, (error) => {
       this.alertService.showError(error.message);
@@ -97,6 +124,10 @@ export class VeiculosPage {
 
   goMapa(deviceId) {
     this.navCtrl.push(MapaPage, {deviceId: deviceId});
+  }
+
+  goHistorico(deviceId){
+    this.navCtrl.push(HistoricoPage, {deviceId: deviceId});
   }
 
   ionViewDidEnter() {

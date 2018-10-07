@@ -13,6 +13,13 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-item>
+    <ion-searchbar
+      [(ngModel)]="filter.deviceDesc"
+      (ionInput)="filterVeiculos($event)"
+      placeholder="Pesquisar pela descrição">
+    </ion-searchbar>
+  </ion-item>
 </ion-header>
 
 
@@ -27,7 +34,7 @@
         {{veiculo.deviceID || '[NÃO INFORMADO]'}} - {{veiculo.description || '[NÃO INFORMADO]'}}<br>
       {{getDescricaoAlerta(veiculo)}}
       </span>
-      <button icon-only item-end style="background: transparent !important;" tappable>
+      <button icon-only item-end style="background: transparent !important;" tappable (click)="goHistorico(veiculo.deviceID)">
         <ion-icon name="search" item-start></ion-icon>
       </button>
     </ion-item-divider>

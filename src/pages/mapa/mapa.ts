@@ -36,13 +36,17 @@ export class MapaPage {
   ionViewDidEnter() {
     this.loadMap();
 
-    this.refreshHistoryFunc = Observable.interval(45000).subscribe(() => {
-      this.loadMap();
-    });
+    if (this.navParams.get('deviceId')) {
+      this.refreshHistoryFunc = Observable.interval(45000).subscribe(() => {
+        this.loadMap();
+      });
+    }
   }
 
-  ionViewDidLeave(){
-    this.refreshHistoryFunc.unsubscribe();
+  ionViewDidLeave() {
+    if (this.refreshHistoryFunc) {
+      this.refreshHistoryFunc.unsubscribe();
+    }
   }
 
   ionViewWillEnter() {
@@ -59,20 +63,35 @@ export class MapaPage {
 
     loading.present();
 
-    this.veiculoService.getHistoricoVeiculo(this.navParams.get('deviceId')).subscribe((retorno) => {
-      this.historicos = retorno || [];
+    setTimeout(() => {
+      if (this.navParams.get('deviceId')) {
+        this.veiculoService.getHistoricoVeiculo(this.navParams.get('deviceId'), 1,
+          null, null).subscribe((retorno) => {
+          this.historicos = retorno || [];
 
-      if (this.tipoMapa === 'google') {
-        this.addGoogleMarkersMap();
-      } else {
-        this.addOpenStreetMarkersMap();
+          if (this.tipoMapa === 'google') {
+            this.addGoogleMarkersMap();
+          } else {
+            this.addOpenStreetMarkersMap();
+          }
+
+          loading.dismiss();
+        }, (error) => {
+          this.alertService.showError(error.message);
+          loading.dismiss();
+        });
+      } else if (this.navParams.get('historico')) {
+        this.historicos.push(this.navParams.get('historico'));
+
+        if (this.tipoMapa === 'google') {
+          this.addGoogleMarkersMap();
+        } else {
+          this.addOpenStreetMarkersMap();
+        }
+
+        loading.dismiss();
       }
-
-      loading.dismiss();
-    }, (error) => {
-      this.alertService.showError(error.message);
-      loading.dismiss();
-    });
+    }, 1500);
   }
 
   /**
@@ -126,7 +145,7 @@ export class MapaPage {
       longitude = this.historicos[0].longitude;
     }
 
-    if(this.Osmap){
+    if (this.Osmap) {
       this.Osmap.off();
       this.Osmap.remove();
     }
@@ -147,8 +166,7 @@ export class MapaPage {
     this.placeBatteryComponentOSMap(this.historicos[0]);
 
     for (var x = 0, y = this.historicos.length; x < y; x++) {
-      let historico: any = this.historicos[x];
-      this.setOSWindowMarkerInfo(historico, icon);
+      this.setOSWindowMarkerInfo(this.historicos[x], icon);
     }
   }
 
@@ -200,8 +218,7 @@ export class MapaPage {
     this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(centerControlDiv);
 
     for (var x = 0, y = this.historicos.length; x < y; x++) {
-      let historico: any = this.historicos[x];
-      this.setGoogleWindowMarkerInfo(historico);
+      this.setGoogleWindowMarkerInfo(this.historicos[x]);
     }
   }
 

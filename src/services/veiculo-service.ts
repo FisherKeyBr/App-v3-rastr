@@ -21,14 +21,16 @@ export class VeiculoService {
     return this.http.post('http://localhost:8063/getVeiculos', params);
   }
 
-  getHistoricoVeiculo(deviceId){
+  getHistoricoVeiculo(deviceId, limit, dataConexao, horaConexao){
     let token: Credential = this.loginService.usuarioLogado;
 
     let params = {
       account: token.account,
       user: token.user,
       deviceId: deviceId,
-      limit:1
+      limit:(limit || 1),
+      date: dataConexao,
+      hour: horaConexao
     };
 
     return this.http.post('http://localhost:8063/getHistoricoVeiculo', params);

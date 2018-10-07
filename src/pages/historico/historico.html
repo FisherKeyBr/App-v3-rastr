@@ -1,18 +1,47 @@
-<!--
-  Generated template for the HistoricoPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
+<!-- -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>historico</ion-title>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <strong>Histórico do veículo</strong>
+    </ion-title>
   </ion-navbar>
-
+  <ion-item>
+    <ion-icon name="car" item-start></ion-icon>
+    <ion-input [(ngModel)]="filter.deviceID" placeholder="Código do veículo" padding-left autofocus></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="calendar" item-start></ion-icon>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="filter.date" placeholder="Data da conexão"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="clock" item-start></ion-icon>
+    <ion-input type="number" [(ngModel)]="filter.hour" placeholder="Hora da conexão(1-24)" padding-left autofocus></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="search" item-start></ion-icon>
+    <ion-input tipo="number" [(ngModel)]="filter.limit" placeholder="Limite(padrão 30)" padding-left autofocus></ion-input>
+  </ion-item>
+  <button ion-button round (click)="pesquisarHistorico()">Pesquisar</button>
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <div class="list-no-border">
+    <ion-item *ngFor="let historico of historicos" tappable (click)="goMapa(historico)">
+      <ion-icon name="car" item-start></ion-icon>
+      <span style="white-space: normal; font-weight: bold">
+        {{historico.deviceID || '[NÃO INFORMADO]'}} - {{historico.description || '[NÃO INFORMADO]'}}
+      </span>
+      <div class="card card-content-md" style="white-space: normal; padding: 0">
+            <span style="font-weight: bold; font-size: smaller">
+              {{historico.address || '[NÃO INFORMADO]'}} <br>
+            </span>
+        <span style="font-size: smaller">
+              Última conexão: {{historico.ultima_conexao || '[NÃO INFORMADO]'}}
+            </span>
+      </div>
+    </ion-item>
+  </div>
 </ion-content>
