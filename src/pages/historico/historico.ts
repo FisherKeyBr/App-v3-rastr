@@ -3,14 +3,6 @@ import {LoadingController, NavController, NavParams} from 'ionic-angular';
 import {VeiculoService} from "../../services/veiculo-service";
 import {AlertService} from "../../services/alert-service";
 import {MapaPage} from "../mapa/mapa";
-import {Observable} from "rxjs";
-
-/**
- * Generated class for the HistoricoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-historico',

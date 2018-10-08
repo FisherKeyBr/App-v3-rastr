@@ -53,7 +53,7 @@ export class VeiculosPage {
     }
   }
 
-  filterVeiculos(searchbar){
+  filterVeiculos(searchbar) {
     this.veiculos = this.veiculosClone;
 
     // set q to the value of the searchbar
@@ -65,7 +65,7 @@ export class VeiculosPage {
     }
 
     this.veiculos = this.veiculos.filter((v) => {
-      if(v.description && q) {
+      if (v.description && q) {
         if (v.description.toLowerCase().indexOf(q.toLowerCase()) > -1) {
           return true;
         }
@@ -126,8 +126,40 @@ export class VeiculosPage {
     this.navCtrl.push(MapaPage, {deviceId: deviceId});
   }
 
-  goHistorico(deviceId){
+  goHistorico(deviceId) {
     this.navCtrl.push(HistoricoPage, {deviceId: deviceId});
+  }
+
+  liberarVeiculo(veiculo) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Liberando veículo...'
+    });
+
+    loading.present();
+    this.veiculoService.liberarVeiculo(veiculo).subscribe(() => {
+      this.alertService.showInfo('O comando foi enviado com sucesso!');
+      loading.dismiss();
+    }, (error) => {
+      this.alertService.showError('Erro ao enviar o comando - ' + error.message);
+      loading.dismiss();
+    });
+  }
+
+  bloquearVeiculo(veiculo) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Bloqueando veículo...'
+    });
+
+    loading.present();
+    this.veiculoService.bloquearVeiculo(veiculo).subscribe(() => {
+      this.alertService.showInfo('O comando foi enviado com sucesso!');
+      loading.dismiss();
+    }, (error) => {
+      this.alertService.showError('Erro ao enviar o comando - ' + error.message);
+      loading.dismiss();
+    });
   }
 
   ionViewDidEnter() {
